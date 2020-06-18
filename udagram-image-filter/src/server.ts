@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
@@ -12,6 +12,33 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
+
+  // GET /filteredimage?image_url={{URL}}
+  // endpoint to filter an image from a public url.
+  app.get('/filteredimage/', async (req: Request, res: Response) => {
+    let { image_url } = req.query;
+
+    // Validate if image_url is present in query params.
+    if (!image_url) {
+      return res.status(400).send('Image url is required!');
+    }
+
+    try {
+      // Filter image.
+      const filteredImage = await filterImageFromURL(image_url.toString());
+
+      // Send response with the filtered image.
+      res.status(200).sendFile(filteredImage);
+
+      // Delete image file from the server on finish of the response.
+      res.on('finish', function() {
+        let filesToDelete: Array<string> = [filteredImage];
+        deleteLocalFiles(filesToDelete);
+      });
+    } catch (e) {
+      res.status(500).send('Internal Server Error!');
+    }
+  });
 
   // Root Endpoint
   // Displays a simple message to the user
