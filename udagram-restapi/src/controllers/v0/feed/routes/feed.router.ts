@@ -1,7 +1,13 @@
 import { Router, Request, Response } from 'express';
+
+import fetch from 'node-fetch';
+
 import { FeedItem } from '../models/FeedItem';
 import { requireAuth } from '../../users/routes/auth.router';
+
 import * as AWS from '../../../../aws';
+
+import { config as c} from '../../../../config/config';
 
 const router: Router = Router();
 
@@ -50,6 +56,18 @@ router.get('/signed-url/:fileName',
   }
 );
 
+async function filterImage(imageUrl: string): Promise<string> {
+  return new Promise<string>(async resolve => {
+    const url: string = c.dev.image_filter_service_url + 
+                        `/filteredimage?image_url=${imageUrl.split("?")[0]}`;
+
+    await fetch(url)
+      .then(res => {
+        resolve(res.url)
+      });
+  });
+}
+
 // Post meta data and the filename after a file is uploaded 
 // NOTE the file name is they key name in the s3 bucket.
 // body : {caption: string, fileName: string};
@@ -77,7 +95,19 @@ router.post('/',
     const saved_item = await item.save();
 
     saved_item.url = AWS.getGetSignedUrl(saved_item.url);
-    res.status(201).send(saved_item);
+
+    const filteredImage = await filterImage(saved_item.url);
+
+    if (!filteredImage) {
+      return res.status(500).send('Internal Server Error!');
+    }
+
+    const filterefFeedItem = await new FeedItem({
+      caption: caption,
+      url: filteredImage
+    });
+
+    res.status(201).send(filterefFeedItem);
   }
 );
 
