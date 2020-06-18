@@ -99,7 +99,7 @@ router.post('/',
     const filteredImage = await filterImage(saved_item.url);
 
     if (!filteredImage) {
-      return res.status(500).send('Internal Server Error!');
+      return res.status(422).send('Unable to process the provided image!');
     }
 
     const filterefFeedItem = await new FeedItem({

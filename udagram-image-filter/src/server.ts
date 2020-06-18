@@ -36,7 +36,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
         deleteLocalFiles(filesToDelete);
       });
     } catch (e) {
-      res.status(500).send('Internal Server Error!');
+      res.status(422).send('Unable to process the provided image!');
     }
   });
 
