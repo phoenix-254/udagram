@@ -11,7 +11,7 @@ install:
 
 # Scripts to be run, such as tests
 before_script:
-    - echo "No tests"
+    - echo "No tests available"
 
 script:
     # Print the version for logging.
