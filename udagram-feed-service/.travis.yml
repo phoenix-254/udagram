@@ -21,7 +21,7 @@ script:
     - docker build -t udagram-feed-service .
 
     # Tag docker image
-    - docker tag udagram-feed-service phoenix254/udagram-feed-service:latest
+    - docker tag udagram-feed-service phoenix254/udagram-feed-service:v1
 
 after_success:
     # Deploy
