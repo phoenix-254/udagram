@@ -3,7 +3,7 @@ node_js:
     - 14
 
 services:
-    docker
+    - docker
 
 # Pre-testing installs
 install:
