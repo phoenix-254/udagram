@@ -28,5 +28,5 @@ script:
 after_success:
     # Deploy
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker push phoenix254/udagram-feed-service
-    - docker push phoenix254/udagram-user-service
+    - docker push phoenix254/udagram-feed-service:v1
+    - docker push phoenix254/udagram-user-service:v1
