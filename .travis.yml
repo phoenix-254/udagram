@@ -1,0 +1,32 @@
+language: node_js
+node_js:
+    - 14
+
+services:
+    - docker
+
+# Pre-testing installs
+install:
+    - echo "Nothing to install"
+
+# Scripts to be run, such as tests
+before_script:
+    - echo "No tests to run"
+
+script:
+    # Print the version for logging
+    - docker --version
+    # Build docker image for feed service and tag with remote image
+    - cd udagram-feed-service
+    - docker build -t udagram-feed-service .
+    - docker tag udagram-feed-service phoenix254/udagram-feed-service:v1
+    # Build docker image for user service and tag with remote image
+    - cd ../udagram-user-service
+    - docker build -t udagram-user-service .
+    - docker tag udagram-user-service phoenix254/udagram-user-service:v1
+
+after_success:
+    # Deploy
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker push phoenix254/udagram-feed-service
+    - docker push phoenix254/udagram-user-service
