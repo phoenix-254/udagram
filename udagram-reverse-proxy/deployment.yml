@@ -3,23 +3,23 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: udagram-user-service
+  name: udagram-reverse-proxy
   labels:
-    service: udagram-user-service
+    service: udagram-reverse-proxy
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: udagram-user-service
+      service: udagram-reverse-proxy
   template:
     metadata:
       labels:
-        service: udagram-user-service
+        service: udagram-reverse-proxy
     spec:
       containers:
-      - name: udagram-user-service
-        image: phoenix254/udagram-user-service:v1
+      - name: udagram-reverse-proxy
+        image: phoenix254/udagram-reverse-proxy
         ports:
         - containerPort: 8080
       restartPolicy: Always

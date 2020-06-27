@@ -5,20 +5,21 @@ kind: Deployment
 metadata:
   name: udagram-feed-service
   labels:
-    app: udagram-feed-service
+    service: udagram-feed-service
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: udagram-feed-service
+      service: udagram-feed-service
   template:
     metadata:
       labels:
-        app: udagram-feed-service
+        service: udagram-feed-service
     spec:
       containers:
       - name: udagram-feed-service
         image: phoenix254/udagram-feed-service
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
+      restartPolicy: Always

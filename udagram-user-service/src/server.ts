@@ -7,6 +7,6 @@ app.get('/', (req, res) => {
     res.send('Hello From User Microservice!');
 });
 
-app.listen(4000, () => {
-    console.log('User service is running on port 4000!');
+app.listen(8080, () => {
+    console.log('User service is running on port 8080!');
 });

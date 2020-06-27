@@ -19,7 +19,7 @@ COPY tsconfig*.json ./
 RUN npm run tsc
 
 # Bind the port that the image will run on
-EXPOSE 4000
+EXPOSE 8080
 
 # Define the Docker image's behavior at runtime
 CMD ["node", "./build/server.js"]

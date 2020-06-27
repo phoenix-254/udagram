@@ -28,6 +28,10 @@ script:
     - cd ../udagram-frontend
     - docker build -t udagram-frontend .
     - docker tag udagram-frontend phoenix254/udagram-frontend:v1
+    # Build docker image for reverse proxy and tag with remote image
+    - cd ../udagram-reverse-proxy
+    - docker build -t udagram-reverse-proxy .
+    - docker tag udagram-reverse-proxy phoenix254/udagram-reverse-proxy:v1
 
 after_success:
     # Deploy
@@ -35,3 +39,5 @@ after_success:
     - docker push phoenix254/udagram-feed-service:v1
     - docker push phoenix254/udagram-user-service:v1
     - docker push phoenix254/udagram-frontend:v1
+    - docker push phoenix254/udagram-reverse-proxy:v1
+
