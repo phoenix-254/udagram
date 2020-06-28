@@ -5,17 +5,17 @@ kind: Deployment
 metadata:
   name: udagram-user-service
   labels:
-    service: udagram-user-service
+    app: udagram-user-service
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: udagram-user-service
+      app: udagram-user-service
   template:
     metadata:
       labels:
-        service: udagram-user-service
+        app: udagram-user-service
     spec:
       containers:
       - name: udagram-user-service
